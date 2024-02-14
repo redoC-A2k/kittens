@@ -13,10 +13,10 @@ async function connect() {
     if(client)
     await client.connect();
 }
-// creating index if it doesn't exists
+// creating index if it doesn't exists on points field of user schema
 try {
     connect();
-    // await client.ft.create('')
+    // await client.ft.create('idx:points'
 } catch (error) {
     console.log("Error while creating index : ", error)
 }
