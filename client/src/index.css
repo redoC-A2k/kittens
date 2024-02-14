@@ -1,13 +1,290 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+  margin: 0px;
+  padding: 0px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* selecting root div of react see - public/index.html */
+#root {
+  min-height: 99vh;
+  position: relative;
 }
+
+:root {
+  --flip-card-width: 20rem;
+  --diffuse-card-width: 10rem;
+
+  --primary-dark-yellow: 178, 148, 118;
+  --primary-grey-1: 108, 117, 125;
+  --primary-grey-2: 33, 37, 41;
+  --primary-grey-3: 50, 54, 58;
+  --secondry-grey-1: 238, 238, 238;
+  --secondry-grey-2: 221, 221, 221;
+}
+
+a {
+  text-decoration: none !important;
+  color: black !important;
+}
+
+/* General */
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
+/* typography */
+h1 {
+  font-size: 5rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-size: 4rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+h3 {
+  font-size: 2.8rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+h4 {
+  font-size: 2.2rem;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 1px;
+  margin-bottom: 0;
+}
+
+h5 {
+  font-size: 1.8rem;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 1px;
+  margin-bottom: 0;
+}
+
+/* Forms */
+form.myform label {
+  width: 100%;
+  text-transform: uppercase;
+}
+
+form.myform input {
+  font-size: 1.6rem;
+}
+
+form.myform input:invalid,
+form.myform textarea:invalid {
+  border: red solid 1px;
+  box-shadow: none;
+}
+
+form.myform span {
+  width: 100%;
+  display: inline-block;
+  color: red;
+}
+
+form.myform button {
+  font-size: 1.6rem;
+}
+
+
+/* Buttons */
+
+button {
+  display: inline-block;
+  outline: 0;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px 0 rgb(213 217 217 / 50%);
+  background: #FFF;
+  border: 1px solid #D5D9D9;
+  font-size: 1.8rem;
+  height: auto;
+  padding: 1rem 2rem;
+  width: auto;
+  text-align: center;
+  font-weight: 400;
+  color: #0F1111;
+}
+
+button:hover {
+  background-color: #F7FAFA;
+  border-color: #D5D9D9;
+}
+
+button.cta {
+  background-color: rgb(var(--primary-grey-1));
+  color: white;
+  border: none;
+  font-size: 1.8rem;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 25.6px 57.6px 0 rgb(0 0 0 / 22%), 0 4.8px 14.4px 0 rgb(0 0 0 / 18%);
+}
+
+button.cta:hover {
+  box-shadow: 0 2px 5px 0 rgb(213 217 217 / 50%);
+}
+
+button.disabled{
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Login page */
+#login {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(50, 50, 50, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#login::before {
+  content: ' ';
+  position: absolute;
+  background-image: url('http://localhost:3000/assets/background.png');
+  height: 100vh;
+  width: 100vw;
+  opacity: 0.3;
+  background-size: cover;
+  background-color: #f5f5f5;
+}
+
+#login form {
+  margin-top: -5rem;
+  background-color: white;
+  position: relative;
+  padding: 2rem;
+  width: 50rem;
+}
+
+/* Game page */
+#game div.container-fluid>div.row {
+  min-height: 100vh;
+  overflow-y: scroll;
+  background-color: rgba(150, 150, 150, 0.3);
+}
+
+#game div.cards {
+  position: relative;
+  flex-direction: row-reverse;
+  display: flex;
+  justify-content: center;
+}
+
+#game div.cards div div.spacer{
+  width: 1rem;
+  display: block;
+  flex-grow: 10;
+  height: 1rem;
+}
+
+
+#game div.cards div.flip-card {
+  perspective: 100rem;
+  width: var(--flip-card-width);
+  position: absolute;
+  height: calc(var(--flip-card-width) * 1.5);
+  transform-style: preserve-3d;
+  margin: 2.5rem;
+  transform:translateX(-55%);
+}
+
+/* @container (min-width:0) {
+  #game div.cards div.flip-card {
+    width: 40cqw;
+    height: calc(40cqw * 1.5);
+    margin: 2.5rem;
+  }
+} */
+
+/* 
+@media screen and (max-width: 768px) {
+  @container (min-width:0) {
+    #game div.cards div.flip-card {
+      width: 40cqw;
+      height: calc(40cqw * 1.5);
+      margin: 1.45rem;
+    }
+  }
+} */
+
+#game div.cards div.flip-card div.face {
+  transition: transform 0.6s;
+  width: 100%;
+  border: 1rem solid rgba(var(--primary-dark-yellow, 1));
+  height: 100%;
+  border-radius: 1rem;
+  -webkit-box-shadow: 0px 0px 20px -3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 20px -3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 20px -3px rgba(0, 0, 0, 0.75);
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+#game div.cards div.flip-card div.front {
+  transform: rotateY(0deg);
+}
+
+#game div.cards div.flip-card div.back {
+  transform: rotateY(-180deg);
+}
+
+/* #game div.cards div.flip-card:hover div.back, */
+#game div.cards div.reveal div.flip-card div.back {
+  transform: rotateY(0deg);
+}
+
+/* #game div.cards div.flip-card:hover div.front, */
+#game div.cards div.reveal div.flip-card div.front{
+  transform: rotateY(180deg);
+}
+
+#game div.cards div.flip-card div.face img {
+  width: 100%;
+  height: 100%;
+}
+
+#game div.cards button{
+  position: absolute;
+  top: calc(var(--flip-card-width) * 1.5 + 15rem);
+}
+
+#game div.diffuse{
+  display: flex;
+  margin-top: 1rem;
+  flex-direction: column;
+}
+#game div.diffuse div.spacer{
+  height: 0.7rem;
+}
+#game div.diffuse div.diffuse-card{
+  width: var(--diffuse-card-width);
+  height: calc(var(--diffuse-card-width) * 1.5);
+  margin: 0.5rem;
+  border: 0.4rem solid rgba(var(--primary-dark-yellow, 1));
+  border-radius: 0.5rem;
+  position: absolute;
+}
+
+#game div.diffuse div.diffuse-card img{
+  width: 100%;
+  height: 100%;
+}
+
