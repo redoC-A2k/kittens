@@ -1,9 +1,13 @@
 const {Router} = require('express')
 const router = Router();
 let user = require('./controllers/user')
+let game = require('./controllers/game')
 
 // ------------------- USER ------------------
 router.post('/user/login', user.loginUser);
+
+// ------------------- GAME -------------------
+router.post('/game/:username', game.setGameState);
 
 // ------------------- 404 -------------------
 router.get('*', function (req, res) {

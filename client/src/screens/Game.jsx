@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import toast from 'react-hot-toast'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectGameState, set } from '../redux/slices/gameState'
+import { selectGameState, set, setGameState } from '../redux/slices/gameState'
+import { selectUserName } from "../redux/slices/username"
 
 export const images = {
     cat: '/assets/cat card.png',
@@ -15,6 +16,7 @@ function Game() {
     // const [cards, setCards] = useState([])
     // const [diffuseCards, setDiffuseCards] = useState([])
     const gameState = useSelector(selectGameState)
+    const username = useSelector(selectUserName)
     const dispatch = useDispatch()
     const [btnDisabled, setBtnDisabled] = useState(false)
     const [playAgain, setPlayAgain] = useState(false);
@@ -30,7 +32,7 @@ function Game() {
             let random = Math.floor(Math.random() * 4)
             cards.push(keys[random])
         }
-        dispatch(set({ cards,diffuseCards:[] }))
+        dispatch(setGameState({ cards, diffuseCards: [] }, username))
         // console.log(cards)
         // setCards(cards)
     }
@@ -40,6 +42,10 @@ function Game() {
             restartGame()
         }
     }, [])
+
+    function wonGame() {
+        toast.success("You won the game !")
+    }
 
     function handleReveal() {
         // console.log(cards)
@@ -51,15 +57,14 @@ function Game() {
             topCard.classList.remove('reveal')
             if (gameState.cards[gameState.cards.length - 1] === 'cat') {
                 if (gameState.cards.length === 1)
-                    toast.success("You won the game !")
-                // setCards(cards.slice(0, -1))
-                dispatch(set({ cards: gameState.cards.slice(0, -1) }))
+                    wonGame()
+                dispatch(setGameState({ cards: gameState.cards.slice(0, -1) }, username))
                 setBtnDisabled(false)
             } else if (gameState.cards[gameState.cards.length - 1] === 'explode') {
                 if (gameState.diffuseCards.length > 0) {
-                    // setDiffuseCards(diffuseCards.slice(0, -1))
-                    // setCards(cards.slice(0, -1))
-                    dispatch(set({ cards: gameState.cards.slice(0, -1), diffuseCards: gameState.diffuseCards.slice(0, -1) }))
+                    if (gameState.cards.length === 1)
+                        wonGame()
+                    dispatch(setGameState({ cards: gameState.cards.slice(0, -1), diffuseCards: gameState.diffuseCards.slice(0, -1) }, username))
                     setBtnDisabled(false)
                     toast("Bomb diffused")
                 } else {
@@ -75,12 +80,9 @@ function Game() {
                 restartGame()
                 setBtnDisabled(false)
             } else if (gameState.cards[gameState.cards.length - 1] === 'diffuse') {
-                // setDiffuseCards([...diffuseCards, 'diffuse'])
-                dispatch(set({ diffuseCards: [...gameState.diffuseCards, 'diffuse'] }))
+                dispatch(setGameState({ diffuseCards: [...gameState.diffuseCards, 'diffuse'], cards: gameState.cards.slice(0, -1) }, username))
                 if (gameState.cards.length === 1)
-                    toast.success("You won the game !")
-                // setCards(cards.slice(0, -1))
-                dispatch(set({ cards: gameState.cards.slice(0, -1) }))
+                    wonGame()
                 setBtnDisabled(false)
             }
         }, 1000);

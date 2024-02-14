@@ -1,10 +1,13 @@
+const { userRespository } = require("../repository/user")
+
 exports.setGameState = async (req, res) => {
     const {gameState} = req.body
     const {username} = req.params
     try {
+        console.log(gameState)
         let user = await userRespository.save(username,{
             cards:gameState.cards,
-            diffuseCards:gameState.diffuseCards
+            diffuseCards:gameState.diffuseCards,
         })
         res.status(200).json(user)
     } catch (error) {

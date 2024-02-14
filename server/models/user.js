@@ -10,6 +10,9 @@ const userSchema = new Schema('user', {
         type:'string[]',
         required:true
     },
+    points:{
+        type:'number',
+    }
 })
 
 module.exports = {userSchema}

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
+import { set as setGameState } from '../slices/gameState'
 export const userNameSlice = createSlice({
     name: 'username',
     initialState: "",
@@ -16,12 +17,12 @@ export const { set } = userNameSlice.actions;
 
 // thunk
 export const fetchUser = (username) => {
-    return async (dispatch,getState) => {
+    return async (dispatch, getState) => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND}/user/login`, { username })
-            let user = response.data
-            // TODO: Dispatch other actions for cards and diffused cards
+            // let gameState = response.data
             dispatch(set(username))
+            dispatch(setGameState(response.data))
         } catch (error) {
             console.log(error)
         }
