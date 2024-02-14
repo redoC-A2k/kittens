@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { set } from '../redux/slices/username'
+import  { fetchUser } from '../redux/slices/username'
 
 function Login() {
     const dispatch = useDispatch()
@@ -24,7 +24,7 @@ function Login() {
     function handleSubmit(e) {
         e.preventDefault()
         if (errors.username === "" && formData.username !== "") {
-            dispatch(set(formData.username))
+            dispatch(fetchUser(formData.username))
         } else if (formData.username === "") {
             setErrors({ ...errors, username: 'Username cannot be empty' })
         }

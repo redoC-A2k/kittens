@@ -10,9 +10,9 @@ function App() {
     let username = useSelector(selectUserName)
     const navigate = useNavigate();
     useEffect(() => {
-        // if (username == "") {
-        //     navigate('/login')
-        // } else navigate("/")
+        if (username == "") {
+            navigate('/login')
+        } else navigate("/")
     }, [username])
     return (
         <>
