@@ -23,3 +23,4 @@ example: if backend is on localhost and port 4000 then value of variable will be
 REACT_APP_BACKEND=http://localhost:4000
 ```
 3. For server set env variables ```PORT```,```REDIS_CLI_URL```, ```FRONTEND_URL``` here PORT will be port on which backend server will run , REDIS_CLI_URL is simply the url of redis server and FRONTEND_URL is url of frontend client (again without trailing slash as explained above) 
+4. Run ```npm run start``` in both client and server directories
