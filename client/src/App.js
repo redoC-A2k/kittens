@@ -21,8 +21,9 @@ function App() {
                     success: {
                         style: {
                             padding: '10px',
-                            marginTop: "6rem"
+                            marginTop: "1rem"
                         },
+                        duration:100
                     },
                 }} />
             <Routes>

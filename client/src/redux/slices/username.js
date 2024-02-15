@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
-import { set as setGameState } from '../slices/gameState'
+import { set as setGameState } from './gameState'
+import { set as setScore } from './score'
+import { set as setLeaderboard } from './leaderboard'
+import toast from 'react-hot-toast'
 export const userNameSlice = createSlice({
     name: 'username',
     initialState: "",
@@ -19,10 +22,24 @@ export const { set } = userNameSlice.actions;
 export const fetchUser = (username) => {
     return async (dispatch, getState) => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BACKEND}/user/login`, { username })
+            let promise = Promise.all([
+                axios.post(`${process.env.REACT_APP_BACKEND}/user/login`, { username }),
+                axios.get(`${process.env.REACT_APP_BACKEND}/leaderboard`),
+                axios.get(`${process.env.REACT_APP_BACKEND}/score/${username}`)
+            ])
+            toast.promise(promise, {
+                loading: 'Loading',
+                success: 'Enjoy game !',
+                error: 'Error in logging you in',
+            })
+            const [gameState, leaderboard, score] = await promise;
             // let gameState = response.data
             dispatch(set(username))
-            dispatch(setGameState(response.data))
+            dispatch(setGameState(gameState.data))
+            console.log(score.data)
+            if (score.data !== null)
+                dispatch(setScore(Number(score.data)))
+            dispatch(setLeaderboard(leaderboard.data))
         } catch (error) {
             console.log(error)
         }

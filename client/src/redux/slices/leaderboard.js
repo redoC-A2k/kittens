@@ -14,11 +14,10 @@ export const leaderboardSlice = createSlice({
 export const { set } = leaderboardSlice.actions;
 
 // thunk
-export const wonGame = (username) => {
-    return async (dispatch, getState) => {
-        let resposne = axios.get(`${process.env.REACT_APP_BACKEND}/leaderboard/${username}`)
-        console.log(response)
-        // dispatch(set(resposne.data))
+export const getLeaderBoard = () => {
+    return async (dispatch) => {
+        let response = await axios.get(`${process.env.REACT_APP_BACKEND}/leaderboard`)
+        dispatch(set(response.data))
     }
 }
 

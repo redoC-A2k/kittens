@@ -1,4 +1,4 @@
-const {Router} = require('express')
+const { Router } = require('express')
 const router = Router();
 let user = require('./controllers/user')
 let game = require('./controllers/game')
@@ -12,8 +12,9 @@ router.post('/game/:username', game.setGameState);
 
 // ------------------- LEADERBOARD -------------------
 // router.get('/leaderboard', game.getLeaderboard);
-router.get('/leaderboard/:username', leaderboard.wonGame);
-
+router.get('/game/won/:username', leaderboard.wonGame);
+router.get('/leaderboard', leaderboard.getLeaderboard);
+router.get('/score/:username', leaderboard.getScore);
 
 // ------------------- 404 -------------------
 router.get('*', function (req, res) {

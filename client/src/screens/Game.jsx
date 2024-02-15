@@ -3,6 +3,9 @@ import toast from 'react-hot-toast'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectGameState, set, setGameState } from '../redux/slices/gameState'
 import { selectUserName } from "../redux/slices/username"
+import Leaderboard from "../components/Leaderboard"
+import { wonGame as wonGameAction } from '../redux/slices/score'
+import { getLeaderBoard } from "../redux/slices/leaderboard"
 
 export const images = {
     cat: '/assets/cat card.png',
@@ -36,15 +39,20 @@ function Game() {
         // console.log(cards)
         // setCards(cards)
     }
+
     useEffect(() => {
         console.log(gameState)
         if (gameState.cards.length === 0) {
             restartGame()
         }
+        setInterval(() => {
+            dispatch(getLeaderBoard())
+        }, 1000);
     }, [])
 
     function wonGame() {
-        toast.success("You won the game !")
+        dispatch(wonGameAction(username))
+        toast.success("You won the game !", { duration: 1000 })
     }
 
     function handleReveal() {
@@ -54,7 +62,6 @@ function Game() {
         topCard.classList.add('reveal')
         setBtnDisabled(true)
         setTimeout(() => {
-            topCard.classList.remove('reveal')
             if (gameState.cards[gameState.cards.length - 1] === 'cat') {
                 if (gameState.cards.length === 1)
                     wonGame()
@@ -66,7 +73,7 @@ function Game() {
                         wonGame()
                     dispatch(setGameState({ cards: gameState.cards.slice(0, -1), diffuseCards: gameState.diffuseCards.slice(0, -1) }, username))
                     setBtnDisabled(false)
-                    toast("Bomb diffused")
+                    toast("Bomb diffused", { duration: 500 })
                 } else {
                     let choice = window.confirm("You lost the game ! Restart the game ?")
                     if (choice) {
@@ -92,7 +99,7 @@ function Game() {
         <section id="game">
             <div className="container-fluid">
                 <div className="row">
-                    <div className="order-2 col-12 col-lg-1 diffuse">
+                    <div className="col-2 col-sm-1 diffuse">
                         {gameState.diffuseCards.map((card, ind) => (
                             <div key={ind}>
                                 <div className="spacer"></div>
@@ -102,7 +109,7 @@ function Game() {
                             </div>
                         ))}
                     </div>
-                    <div className="order-1 col-12 order-lg-2 col-lg-8 text-center cards">
+                    <div className="col-10 order-2 col-sm-7 text-center cards">
                         {gameState.cards.map((card, ind) => (<div key={ind}>
                             <div className="spacer" style={{ marginTop: `${ind + 1}rem` }}></div>
                             <div key={ind} className={`flip-card`}>
@@ -121,8 +128,8 @@ function Game() {
                                 <button className={`cta ${btnDisabled ? "disabled" : ""}`} onClick={handleReveal} disabled={btnDisabled}>Reveal</button>
                         }
                     </div>
-                    <div className="order-3 col-lg-2 leaderboard">
-                        Leaderboard
+                    <div className="order-3 col-sm-4 leaderboard">
+                        <Leaderboard />
                     </div>
                 </div>
             </div>

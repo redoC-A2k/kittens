@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 
 export const gameStateSlice = createSlice({
     name: 'gameState',
@@ -24,13 +25,25 @@ export const setGameState = (gameState, username) => {
     return async (dispatch, getState) => {
         let state = getState()
         try {
-            await axios.post(`${process.env.REACT_APP_BACKEND}/game/${username}`, {
-                gameState: {
-                    cards:gameState.cards===undefined?state.gameState.cards:gameState.cards,
-                    diffuseCards:(gameState.diffuseCards===undefined?state.gameState.diffuseCards:gameState.diffuseCards)
+            if (username) {
+                let promise = axios.post(`${process.env.REACT_APP_BACKEND}/game/${username}`, {
+                    gameState: {
+                        cards: gameState.cards === undefined ? state.gameState.cards : gameState.cards,
+                        diffuseCards: (gameState.diffuseCards === undefined ? state.gameState.diffuseCards : gameState.diffuseCards)
+                    }
+                })
+                toast.promise(promise, {
+                    loading: 'Loading ...',
+                })
+                await promise;
+                dispatch(set(gameState))
+                let cardsCollection = document.querySelectorAll('.cards')[0].children
+                if (cardsCollection && cardsCollection.length > 1) {
+                    let topCard = cardsCollection[cardsCollection.length - 2]
+                    if (topCard)
+                        topCard.classList.remove('reveal')
                 }
-            })
-            dispatch(set(gameState))
+            }
         } catch (error) {
             console.log(error)
         }
