@@ -8,7 +8,7 @@
     "build": "tsc",
     "dev": "tsc -w",
     "start": "NODE_ENV=dev nodemon dist",
-    "prod": "pm2 start app.js && pm2 logs --lines 100000"
+    "prod": "pm2 start dist/index.js && pm2 logs --lines 100000"
   },
   "keywords": [],
   "author": "",
