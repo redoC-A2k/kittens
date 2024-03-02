@@ -13,7 +13,7 @@ router.post('/game/:username', game.setGameState);
 // ------------------- LEADERBOARD -------------------
 // router.get('/leaderboard', game.getLeaderboard);
 router.get('/game/won/:username', leaderboard.wonGame);
-router.get('/leaderboard', leaderboard.getLeaderboard);
+// router.get('/leaderboard', leaderboard.getLeaderboard);
 router.get('/score/:username', leaderboard.getScore);
 
 // ------------------- 404 -------------------

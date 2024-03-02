@@ -14,12 +14,12 @@ export const leaderboardSlice = createSlice({
 export const { set } = leaderboardSlice.actions;
 
 // thunk
-export const getLeaderBoard = () => {
-    return async (dispatch) => {
-        let response = await axios.get(`${process.env.REACT_APP_BACKEND}/leaderboard`)
-        dispatch(set(response.data))
-    }
-}
+// export const getLeaderBoard = () => {
+//     return async (dispatch) => {
+//         let response = await axios.get(`${process.env.REACT_APP_BACKEND}/leaderboard`)
+//         dispatch(set(response.data))
+//     }
+// }
 
 export const selectLeaderBoard = state => state.leaderboard
 

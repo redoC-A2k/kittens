@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch , useSelector} from 'react-redux'
 import  { fetchUser } from '../redux/slices/username'
 
-function Login() {
+function Login(props) {
     const dispatch = useDispatch()
-
 
     const [formData, setFormData] = useState({
         username: "",
@@ -12,7 +11,6 @@ function Login() {
     const [errors, setErrors] = useState({
         username: ""
     })
-
 
     function handleChange(e) {
         if (!e.target.checkValidity()) {

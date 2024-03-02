@@ -1,10 +1,24 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const __1 = require("..");
 const client_1 = require("../client");
+const constants_1 = __importDefault(require("../constants"));
+const ws_1 = require("ws");
 const wonGame = async (req, res) => {
     const { username } = req.params;
     try {
         let score = await client_1.client.ZINCRBY('leaderboard', 1, `user:${username}`);
+        let leaderboard = await client_1.client.zRangeWithScores('leaderboard', 0, 9, {
+            REV: true
+        });
+        __1.wsServer.clients.forEach((client) => {
+            if (client.readyState === ws_1.WebSocket.OPEN) {
+                client.send(JSON.stringify({ type: constants_1.default.LATEST_LEADERBOARD, payload: leaderboard }));
+            }
+        });
         res.status(200).json(score);
     }
     catch (error) {

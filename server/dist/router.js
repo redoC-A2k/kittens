@@ -15,7 +15,7 @@ router.post('/game/:username', game_1.default.setGameState);
 // ------------------- LEADERBOARD -------------------
 // router.get('/leaderboard', game.getLeaderboard);
 router.get('/game/won/:username', leaderboard_1.default.wonGame);
-router.get('/leaderboard', leaderboard_1.default.getLeaderboard);
+// router.get('/leaderboard', leaderboard.getLeaderboard);
 router.get('/score/:username', leaderboard_1.default.getScore);
 // ------------------- 404 -------------------
 router.get('*', function (req, res) {

@@ -1,6 +1,6 @@
 {
   "short_name": "kittens",
-  "name": "kittens",
+  "name": "Card based kittens game",
   "icons": [
     {
       "src": "favicon.ico",

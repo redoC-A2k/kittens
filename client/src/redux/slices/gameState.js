@@ -26,16 +26,16 @@ export const setGameState = (gameState, username) => {
         let state = getState()
         try {
             if (username) {
-                let promise = axios.post(`${process.env.REACT_APP_BACKEND}/game/${username}`, {
-                    gameState: {
-                        cards: gameState.cards === undefined ? state.gameState.cards : gameState.cards,
-                        diffuseCards: (gameState.diffuseCards === undefined ? state.gameState.diffuseCards : gameState.diffuseCards)
-                    }
-                })
-                toast.promise(promise, {
-                    loading: 'Loading ...',
-                })
-                await promise;
+                // let promise = axios.post(`${process.env.REACT_APP_BACKEND}/game/${username}`, {
+                //     gameState: {
+                //         cards: gameState.cards === undefined ? state.gameState.cards : gameState.cards,
+                //         diffuseCards: (gameState.diffuseCards === undefined ? state.gameState.diffuseCards : gameState.diffuseCards)
+                //     }
+                // })
+                // toast.promise(promise, {
+                //     loading: 'Loading ...',
+                // })
+                // await promise;
                 dispatch(set(gameState))
                 let cardsCollection = document.querySelectorAll('.cards')[0].children
                 if (cardsCollection && cardsCollection.length > 1) {

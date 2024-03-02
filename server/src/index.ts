@@ -2,8 +2,8 @@ import express from 'express'
 import dotenv from 'dotenv'
 import { WebSocket } from 'ws'
 import bodyParser from 'body-parser';
-import router  from './router'
-import {handleMessages} from './controllers/socket'
+import router from './router'
+import { handleMessages } from './controllers/socket'
 dotenv.config()
 
 const app = express()
@@ -22,7 +22,9 @@ const server = app.listen(process.env.PORT, () => {
     console.log("Server is running on port " + process.env.PORT)
 })
 
-const wsServer = new WebSocket.Server({ noServer: true })
+export const wsServer = new WebSocket.Server({ noServer: true })
+
+export const clientMap:{[key: string]: WebSocket} = {};
 
 server.on('upgrade', (request, socket, head) => {
     console.log("upgrade request received")
@@ -33,6 +35,12 @@ server.on('upgrade', (request, socket, head) => {
 })
 
 wsServer.on('connection', (socket: WebSocket, request) => {
+    if (request.url) {
+        let username = new URL(request.url, `https://${request.headers.host}`).searchParams.get('username')
+        if (username) {
+            clientMap[username] = socket
+        }
+    }
     socket.on('message', (message: String, isBinary: boolean) => {
         handleMessages(message, isBinary, socket)
     })

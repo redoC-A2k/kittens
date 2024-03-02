@@ -5,7 +5,8 @@ import { selectGameState, set, setGameState } from '../redux/slices/gameState'
 import { selectUserName } from "../redux/slices/username"
 import Leaderboard from "../components/Leaderboard"
 import { wonGame as wonGameAction } from '../redux/slices/score'
-import { getLeaderBoard } from "../redux/slices/leaderboard"
+import constants from "../utils/constants"
+import { set as setLeaderboard } from '../redux/slices/leaderboard'
 
 export const images = {
     cat: '/assets/cat card.png',
@@ -15,7 +16,7 @@ export const images = {
 }
 
 
-function Game() {
+function Game({ socket }) {
     // const [cards, setCards] = useState([])
     // const [diffuseCards, setDiffuseCards] = useState([])
     const gameState = useSelector(selectGameState)
@@ -36,19 +37,29 @@ function Game() {
             cards.push(keys[random])
         }
         dispatch(setGameState({ cards, diffuseCards: [] }, username))
-        // console.log(cards)
-        // setCards(cards)
     }
 
     useEffect(() => {
-        console.log(gameState)
         if (gameState.cards.length === 0) {
             restartGame()
         }
-        setInterval(() => {
-            dispatch(getLeaderBoard())
-        }, 1000);
     }, [])
+
+    useEffect(() => {
+        console.log(socket)
+        socket?.onmessage((event) => {
+            let msg = JSON.parse(event.data)
+            switch (msg.type) {
+                case constants.LATEST_LEADERBOARD:
+                    dispatch(setLeaderboard(msg.payload))
+                    break;
+                default:
+                    console.log("Default message  : ", msg)
+                    break;
+            }
+        })
+        socket?.send({ type: constants.GET_LEADERBOARD })
+    },[socket])
 
     function wonGame() {
         dispatch(wonGameAction(username))

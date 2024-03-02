@@ -18,6 +18,7 @@ export const wonGame = (username) => {
     return async (dispatch, getState) => {
         let response = await axios.get(`${process.env.REACT_APP_BACKEND}/game/won/${username}`)
         console.log(response.data)
+        localStorage.setItem('score', response.data)
         dispatch(set(Number(response.data)))
     }
 }
