@@ -46,7 +46,6 @@ function Game({ socket }) {
     }, [])
 
     useEffect(() => {
-        console.log(socket)
         socket?.onmessage((event) => {
             let msg = JSON.parse(event.data)
             switch (msg.type) {

@@ -6,7 +6,6 @@ class Socket {
         url = url.replace('http', 'ws');
         url = url + `/ws?username=${username}`
         this.username = username;
-        console.log(url)
         if (this.socket == null) {
             this.socket = new WebSocket(url);
             this.socket.onopen = this.onopen
