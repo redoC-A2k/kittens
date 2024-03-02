@@ -1,8 +1,8 @@
-const { Router } = require('express')
+import { Router } from 'express';
 const router = Router();
-let user = require('./controllers/user')
-let game = require('./controllers/game')
-let leaderboard = require('./controllers/leaderboard')
+import user from './controllers/user'
+import game from './controllers/game'
+import leaderboard from './controllers/leaderboard'
 
 // ------------------- USER ------------------
 router.post('/user/login', user.loginUser);
@@ -31,4 +31,4 @@ router.delete('*', function (req, res) {
 });
 
 
-module.exports = { router };
+export default router;

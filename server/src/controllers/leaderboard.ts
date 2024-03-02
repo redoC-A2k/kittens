@@ -1,6 +1,7 @@
-const { client } = require("../client")
+import { client } from '../client'
+import { Request, Response } from 'express'
 
-exports.wonGame = async (req, res) => {
+const wonGame = async (req: Request, res: Response) => {
     const { username } = req.params
     try {
         let score = await client.ZINCRBY('leaderboard', 1, `user:${username}`);
@@ -11,7 +12,7 @@ exports.wonGame = async (req, res) => {
     }
 }
 
-exports.getLeaderboard = async (req, res) => {
+const getLeaderboard = async (req: Request, res: Response) => {
     try {
         let leaderboard = await client.zRangeWithScores('leaderboard', 0, 9, {
             REV: true
@@ -23,8 +24,8 @@ exports.getLeaderboard = async (req, res) => {
     }
 }
 
-exports.getScore = async (req,res) => {
-    const {username} = req.params
+const getScore = async (req: Request, res: Response) => {
+    const { username } = req.params
     try {
         let score = await client.zScore('leaderboard', `user:${username}`)
         res.status(200).json(score)
@@ -33,3 +34,5 @@ exports.getScore = async (req,res) => {
         res.status(500).json("Error while fetching user score")
     }
 }
+
+export default { wonGame, getLeaderboard, getScore}
